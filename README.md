@@ -10,7 +10,7 @@ nvm install lts/jod
 nvm use lts/jod (v22.13.0)
 
 npm clean-install
-patch-package
+npx patch-package
 
 npx react-native start
 
