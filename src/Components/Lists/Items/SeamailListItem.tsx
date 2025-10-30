@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {Text} from 'react-native-paper';
 
 import {AppIcon} from '#src/Components/Icons/AppIcon';
 import {FezAvatarImage} from '#src/Components/Images/FezAvatarImage';
@@ -34,6 +35,14 @@ const SeamailListItemInternal = ({fez}: SeamailListItemProps) => {
     },
     leftContainer: {
       ...commonStyles.paddingLeftSmall,
+      justifyContent: 'center',
+    },
+    postCountColor: {
+      color: '#cfcfcf',
+    },
+    postCountIcon: {
+      ...commonStyles.marginRightTiny,
+      color: '#cfcfcf',
     },
   });
 
@@ -41,7 +50,7 @@ const SeamailListItemInternal = ({fez}: SeamailListItemProps) => {
   const description = otherParticipants.map(p => p.username).join(', ');
 
   const getAvatar = () => (
-    <View style={styles.leftContainer}>
+    <View style={[styles.leftContainer, commonStyles.alignItemsCenter]}>
       <FezAvatarImage fez={fez} />
     </View>
   );
@@ -52,10 +61,28 @@ const SeamailListItemInternal = ({fez}: SeamailListItemProps) => {
     });
 
   const getRight = () => {
+    const totalPostCount = fez.members?.postCount || 0;
+
     if (fez.members?.isMuted) {
-      return <AppIcon icon={AppIcons.mute} />;
+      return (
+        <View style={[commonStyles.verticalContainer, commonStyles.alignItemsEnd]}>
+          <AppIcon icon={AppIcons.mute} />
+          <View style={[commonStyles.flexRow, commonStyles.alignItemsCenter, commonStyles.marginTopTiny]}>
+            <AppIcon icon={AppIcons.chat} style={styles.postCountIcon} />
+            <Text variant="bodySmall" style={styles.postCountColor}>{totalPostCount}</Text>
+          </View>
+        </View>
+      );
     }
-    return <SeamailTimeBadge date={fez.lastModificationTime} badgeCount={badgeCount} />;
+    return (
+      <View style={[commonStyles.verticalContainer, commonStyles.alignItemsEnd]}>
+        <SeamailTimeBadge date={fez.lastModificationTime} badgeCount={badgeCount} />
+        <View style={[commonStyles.flexRow, commonStyles.alignItemsCenter, commonStyles.marginTopTiny]}>
+          <AppIcon icon={AppIcons.chat} style={commonStyles.marginRightTiny} color="#cfcfcf" />
+          <Text variant="bodySmall" style={styles.postCountColor}>{totalPostCount}</Text>
+        </View>
+      </View>
+    );
   };
 
   return (
