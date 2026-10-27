@@ -15,15 +15,11 @@ export interface ForumCategoryQueryParams {
   order?: ForumSortDirection;
 }
 
-/** Fetches category threads with optional query enablement for loading category sort metadata first. */
-export const useForumCategoryQuery = (
-  categoryId: string,
-  queryParams: ForumCategoryQueryParams = {},
-  options?: {enabled?: boolean},
-) => {
+/** Fetches paginated threads for the specified forum category. */
+export const useForumCategoryQuery = (categoryId: string, queryParams: ForumCategoryQueryParams = {}) => {
   return useTokenAuthPaginationQuery<CategoryData, ForumCategoryQueryParams>(
     `/forum/categories/${categoryId}`,
-    options,
+    undefined,
     queryParams,
   );
 };

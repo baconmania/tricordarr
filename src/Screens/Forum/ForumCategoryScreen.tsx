@@ -57,7 +57,7 @@ export const ForumCategoryScreen = (props: Props) => {
 const ForumCategoryScreenInner = ({route, navigation}: Props) => {
   const {forumFilter, forumSortOrder, forumSortDirection} = useForumFilter();
   const isFocused = useIsFocused();
-  const {data: categories, isLoading: isLoadingCategories} = useForumCategoriesQuery();
+  const {data: categories} = useForumCategoriesQuery();
   const categoryMetadata = categories?.find(category => category.categoryID === route.params.categoryID);
   const categoryDefaultSort = categoryMetadata?.defaultSort;
   const effectiveSort = forumSortOrder ?? categoryDefaultSort;
@@ -75,7 +75,7 @@ const ForumCategoryScreenInner = ({route, navigation}: Props) => {
   } = useForumCategoryQuery(route.params.categoryID, {
     ...(effectiveSort ? {sort: effectiveSort} : undefined),
     ...(forumSortDirection ? {order: forumSortDirection} : undefined),
-  }, {enabled: !!forumSortOrder || !isLoadingCategories});
+  });
   const {forumListData, isUserRestricted} = useForumListData(data);
   const {selectedItems, enableSelection} = useSelection();
   const {refreshing, setRefreshing, onRefresh} = useRefresh({
