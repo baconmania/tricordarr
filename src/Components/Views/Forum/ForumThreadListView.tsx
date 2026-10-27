@@ -5,16 +5,18 @@ import {SelectionButtons} from '#src/Components/Buttons/SegmentedButtons/Selecti
 import {AppRefreshControl} from '#src/Components/Controls/AppRefreshControl';
 import {ForumThreadList} from '#src/Components/Lists/Forums/ForumThreadList';
 import {ListTitleView} from '#src/Components/Views/ListTitleView';
+import {useSelectable} from '#src/Context/Contexts/SelectableContext';
 import {useSelection} from '#src/Context/Contexts/SelectionContext';
 import {usePagination} from '#src/Hooks/usePagination';
 import {SetRefreshing} from '#src/Hooks/useRefresh';
 import {CategoryData, ForumListData} from '#src/Structs/ControllerStructs';
-import {Selectable} from '#src/Types/Selectable';
 
 interface ForumThreadListViewProps {
   hasNextPage?: boolean;
   hasPreviousPage?: boolean;
   enableFAB?: boolean;
+  /** Raise the scroll buttons above a bottom-right FAB. Defaults to `enableFAB`, which says whether this view renders its own FAB. */
+  scrollButtonRaised?: boolean;
   category?: CategoryData;
   setRefreshing: SetRefreshing;
   fetchNextPage: () => Promise<unknown>;
@@ -33,6 +35,7 @@ export const ForumThreadListView = ({
   hasNextPage,
   hasPreviousPage,
   enableFAB = false,
+  scrollButtonRaised = enableFAB,
   category,
   setRefreshing,
   fetchNextPage,
@@ -47,6 +50,7 @@ export const ForumThreadListView = ({
   scrollToTopIntent,
 }: ForumThreadListViewProps) => {
   const {enableSelection} = useSelection();
+  const {fromForumListData} = useSelectable();
   const [showFabLabel, setShowFabLabel] = useState(true);
   const onScrollThreshold = (hasScrolled: boolean) => setShowFabLabel(!hasScrolled);
 
@@ -63,7 +67,7 @@ export const ForumThreadListView = ({
   return (
     <>
       {enableSelection ? (
-        <SelectionButtons items={forumListData.map(Selectable.fromForumListData)} />
+        <SelectionButtons items={forumListData.map(fromForumListData)} />
       ) : (
         <ListTitleView title={title} subtitle={subtitle} />
       )}
@@ -77,6 +81,7 @@ export const ForumThreadListView = ({
         categoryID={category?.categoryID}
         onScrollThreshold={onScrollThreshold}
         scrollToTopIntent={scrollToTopIntent}
+        scrollButtonRaised={scrollButtonRaised}
       />
       {enableFAB && category && <ForumCategoryFAB category={category} showLabel={showFabLabel} />}
     </>
