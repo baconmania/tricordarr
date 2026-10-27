@@ -220,7 +220,8 @@ const extractSortParams = (
   defaultSort?: ForumSort,
 ): {sort: ForumSort; direction: ForumSortDirection} => {
   const params = queryKey[1] as Record<string, string> | undefined;
-  const sort = (params?.sort as ForumSort) ?? defaults.sort ?? getApiDefaultSort(endpoint, isEventCategory, defaultSort);
+  const sort =
+    (params?.sort as ForumSort) ?? defaults.sort ?? getApiDefaultSort(endpoint, isEventCategory, defaultSort);
   const direction = getEffectiveDirection(sort, (params?.order as ForumSortDirection) ?? defaults.direction);
   return {sort, direction};
 };

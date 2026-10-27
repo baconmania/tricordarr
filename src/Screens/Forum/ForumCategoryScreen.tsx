@@ -107,7 +107,15 @@ const ForumCategoryScreenInner = ({route, navigation}: Props) => {
         </MaterialHeaderButtons>
       </View>
     );
-  }, [enableSelection, route.params.categoryID, category, forumListData, selectedItems, setRefreshing]);
+  }, [
+    enableSelection,
+    route.params.categoryID,
+    category,
+    categoryDefaultSort,
+    forumListData,
+    selectedItems,
+    setRefreshing,
+  ]);
 
   useEffect(() => {
     navigation.setOptions({
