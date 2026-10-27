@@ -117,7 +117,11 @@ const ForumCategoryScreenInner = ({route, navigation}: Props) => {
   }, [isFocused, getNavButtons, navigation, enableSelection, selectedItems.length]);
 
   if (isLoading || !data || !category) {
-    return <LoadingView />;
+    return (
+      <AppView>
+        <LoadingView />
+      </AppView>
+    );
   }
 
   if (category.paginator.total === 0 && forumListData.length === 0) {
@@ -137,6 +141,7 @@ const ForumCategoryScreenInner = ({route, navigation}: Props) => {
           relationType={ForumFilter.toRelation(forumFilter)}
           category={category}
           title={category.title}
+          scrollButtonRaised={!isUserRestricted}
         />
         {!isUserRestricted && <ForumCategoryFAB category={category} />}
       </AppView>

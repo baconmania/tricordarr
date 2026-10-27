@@ -11,6 +11,7 @@ import {ReactionsDetailModal} from '#src/Components/Views/Modals/ReactionsDetail
 import {useSession} from '#src/Context/Contexts/SessionContext';
 import {useStyles} from '#src/Context/Contexts/StyleContext';
 import {useAppTheme} from '#src/Context/Contexts/ThemeContext';
+import {useUserHeader} from '#src/Context/Contexts/UserHeaderContext';
 import {AppIcons} from '#src/Enums/Icons';
 import {useMenu} from '#src/Hooks/useMenu';
 import {useUserFavoritesQuery} from '#src/Queries/Users/UserFavoriteQueries';
@@ -75,6 +76,7 @@ export const MessageView = ({
   const [reactionDetailsVisible, setReactionDetailsVisible] = useState(false);
   const {theme} = useAppTheme();
   const {data: favorites} = useUserFavoritesQuery({enabled: !!showFavoriteAuthor});
+  const {contains} = useUserHeader();
 
   const styles = useMemo(
     () =>
@@ -144,7 +146,7 @@ export const MessageView = ({
             <View style={styles.authorNameContainer}>
               <UserBylineTag user={author} style={styles.messageTextHeader} selectable={false} />
             </View>
-            {showFavoriteAuthor && UserHeader.contains(favorites, author) && (
+            {showFavoriteAuthor && contains(favorites, author) && (
               <View style={styles.favoriteUserIconContainer}>
                 <AppIcon icon={AppIcons.favorite} color={theme.colors.twitarrYellow} />
               </View>
