@@ -203,7 +203,7 @@ const FezChatScreenInner = ({route}: Props) => {
     (event: WebSocketMessageEvent) => {
       logger.info('fezSocketMessageHandler responding event', event);
       const socketMessage = JSON.parse(event.data);
-      if ('reactions' in socketMessage) {
+      if (socketMessage.reactionUpdate === true) {
         const reactionData = socketMessage as SocketFezReactionData;
         updatePostReactions(route.params.fezID, reactionData.postID, reactionData.reactions);
       } else if ('joined' in socketMessage) {

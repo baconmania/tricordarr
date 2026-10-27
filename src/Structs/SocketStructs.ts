@@ -30,6 +30,7 @@ export interface SocketFezMemberChangeData {
 
 /** Complete reaction state for a chat post after a participant adds or removes one. */
 export interface SocketFezReactionData {
+  reactionUpdate: true;
   postID: number;
   reactions: ReactionData[];
 }
